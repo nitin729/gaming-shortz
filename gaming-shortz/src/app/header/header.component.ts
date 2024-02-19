@@ -20,6 +20,7 @@ export class HeaderComponent {
 
   logout() {
     this.authService.logout();
+    this.authService.isLoggedIn.set(false);
     this.router.navigate(['/login']);
   }
 }

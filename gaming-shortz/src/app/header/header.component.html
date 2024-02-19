@@ -12,27 +12,30 @@
       <!-- Primary Navigation -->
       <ul class="flex flex-row mt-1 text-cyan-100">
         <!-- Navigation Links -->
-        <li *ngIf="!authService.isLoggedIn">
+        <li *ngIf="!authService.isLoggedIn()">
           <a class="px-2" routerLink="/login">Login</a>
         </li>
-        <li *ngIf="!authService.isLoggedIn">
+        <li *ngIf="!authService.isLoggedIn()">
           <a class="px-2" routerLink="/register">Register</a>
         </li>
         <li>
           <a class="px-2" href="#">Manage</a>
         </li>
         <li>
-          <a class="px-2" href="#">Upload</a>
+          <a class="px-2" routerLink="/upload">Upload</a>
         </li>
         <li>
           <a class="px-2" routerLink="/">About</a>
         </li>
-        <li *ngIf="authService.isLoggedIn">
+        <li *ngIf="authService.isLoggedIn()">
           <a class="px-2 cursor-pointer" (click)="logout()">Logout</a>
         </li>
       </ul>
       <!-- Language Switcher -->
       <ul class="flex flex-row ml-auto">
+        <li class="mr-6 text-cyan-100" *ngIf="authService.user()?.name">
+          <h3>Hello ! {{ authService.user()?.name }}</h3>
+        </li>
         <li>
           <a href="#">
             <img

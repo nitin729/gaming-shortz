@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { Client, Account, ID } from 'appwrite';
+import { Client, Account, ID, Models } from 'appwrite';
+import { from, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,8 @@ import { Client, Account, ID } from 'appwrite';
 export class AuthService {
   client = new Client();
   account;
-  isLoggedIn = false;
+  isLoggedIn = signal<Boolean>(false);
+  user = signal<Models.User<Models.Preferences> | null>(null);
   constructor() {
     this.client
       .setEndpoint(environment.appwrite.URL)
@@ -20,7 +22,6 @@ export class AuthService {
     try {
       await this.account.create(ID.unique(), email, password, name);
       this.login(email, password);
-      console.log(await this.account.get());
     } catch (error) {
       console.error(error);
     }
@@ -28,11 +29,11 @@ export class AuthService {
 
   async login(email: string, password: string) {
     try {
-      await this.account.createEmailSession(email, password);
-      this.isLoggedIn = true;
+      return await this.account.createEmailSession(email, password);
     } catch (error) {
       console.error(error);
     }
+    return null;
   }
   async getCurrentUser() {
     try {
@@ -45,7 +46,6 @@ export class AuthService {
 
   async logout() {
     try {
-      this.isLoggedIn = false;
       return await this.account.deleteSessions();
     } catch (error) {
       console.log(error);

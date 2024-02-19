@@ -28,7 +28,7 @@ export class RegisterComponent {
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [
     Validators.required,
-    Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm),
+    /*  Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm), */
   ]);
   confirmPassword = new FormControl('', [Validators.required]);
   registerForm = this.fb.group({
@@ -39,7 +39,7 @@ export class RegisterComponent {
   });
 
   register() {
-    console.log(this.registerForm.value);
+    console.log(this.registerForm.valid);
     this.authService.createAccount(
       this.email.value as string,
       this.password.value as string,

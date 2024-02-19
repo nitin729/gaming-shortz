@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
+import { from, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -26,12 +26,15 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required]),
   });
 
-  login() {
+  async login() {
     let email = this.loginForm.controls['email'].value as string;
     let password = this.loginForm.controls['password'].value as string;
-    this.authService.login(email, password);
-    this.route.navigate(['/']);
-    const user = of(this.authService.getCurrentUser());
-    user.subscribe((user) => console.log(user));
+    let session = await this.authService.login(email, password);
+    if (session) {
+      this.authService.isLoggedIn.set(true);
+      const user = from(this.authService.getCurrentUser());
+      user.subscribe((user) => this.authService.user.set(user));
+      this.route.navigate(['/']);
+    }
   }
 }
