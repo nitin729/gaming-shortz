@@ -19,10 +19,12 @@
           <a class="px-2" routerLink="/register">Register</a>
         </li>
         <li>
-          <a class="px-2" href="#">Manage</a>
+          <a class="px-2" *ngIf="authService.isLoggedIn()" href="#">Manage</a>
         </li>
         <li>
-          <a class="px-2" routerLink="/upload">Upload</a>
+          <a class="px-2" *ngIf="authService.isLoggedIn()" routerLink="/upload"
+            >Upload</a
+          >
         </li>
         <li>
           <a class="px-2" routerLink="/">About</a>

@@ -10,6 +10,7 @@ import {
 import { StorageService } from '../../services/storage.service';
 import { InputComponent } from '../../shared/input/input.component';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-upload',
@@ -32,7 +33,11 @@ export class UploadComponent {
     title: this.title,
   });
 
-  constructor(private storage: StorageService, private router: Router) {}
+  constructor(
+    private storage: StorageService,
+    private router: Router,
+    private auth: AuthService
+  ) {}
 
   storeFile($event: Event): void {
     this.isDragOver.set(false);
@@ -47,7 +52,14 @@ export class UploadComponent {
   }
 
   async uploadFile() {
-    const uploadTask = await this.storage.createFile(this.file as File);
+    await this.storage.createFile(this.file as File);
+    let shortzObj = {
+      id: this.storage.clipId(),
+      title: this.title.value || '',
+      createdAt: this.storage.clip().$createdAt,
+      createdBy: this.auth.user()?.name,
+    };
+    await this.storage.createSortzDocument(shortzObj);
     this.isNextStep.set(false);
     this.file = null;
     this.title.setValue('');

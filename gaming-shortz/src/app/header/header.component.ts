@@ -3,6 +3,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { of } from 'rxjs';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-header',
@@ -14,13 +15,18 @@ import { of } from 'rxjs';
 export class HeaderComponent {
   currentUser: String = '';
 
-  constructor(public router: Router, public authService: AuthService) {}
+  constructor(
+    public router: Router,
+    public authService: AuthService,
+    public storage: StorageService
+  ) {}
 
   ngOnInit(): void {}
 
   logout() {
     this.authService.logout();
     this.authService.isLoggedIn.set(false);
+    this.storage.documents.set([]);
     this.router.navigate(['/login']);
   }
 }
