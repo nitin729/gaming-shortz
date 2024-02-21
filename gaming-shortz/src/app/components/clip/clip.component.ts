@@ -34,8 +34,6 @@ export class ClipComponent {
 
     this.route.params.subscribe((params) => {
       this.videoURL = this.storage.getFileView(params['id'])?.toString();
-      console.log(this.videoURL, typeof this.videoURL);
-
       this.player?.src({
         src: this.videoURL?.toString(),
         type: 'video/mp4',

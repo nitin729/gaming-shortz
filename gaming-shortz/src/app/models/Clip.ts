@@ -1,6 +1,8 @@
 export interface Clip {
-  id: string;
+  userId: string | undefined;
+  clipId: string | undefined;
+  screenshotUrl: string | undefined;
   title: string | undefined;
-  createdAt: string;
-  createdBy: string | undefined;
+  timestamp: string;
+  userName: string | undefined;
 }

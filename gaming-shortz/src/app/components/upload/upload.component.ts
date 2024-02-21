@@ -11,6 +11,7 @@ import { StorageService } from '../../services/storage.service';
 import { InputComponent } from '../../shared/input/input.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Clip } from '../../models/Clip';
 
 @Component({
   selector: 'app-upload',
@@ -51,15 +52,21 @@ export class UploadComponent {
     this.isNextStep.set(true);
   }
 
-  async uploadFile() {
-    await this.storage.createFile(this.file as File);
-    let shortzObj = {
-      id: this.storage.clipId(),
-      title: this.title.value || '',
+  async upload() {
+    await this.storage.uploadClip(this.file as File);
+    let clipObj: Clip = {
+      /* title: this.title.value || '',
+      userId: this.auth.user()?.$id,
       createdAt: this.storage.clip().$createdAt,
-      createdBy: this.auth.user()?.name,
+      createdBy: this.auth.user()?.name, */
+      userId: this.auth.user()?.$id,
+      clipId: this.storage.clip().$id,
+      screenshotUrl: '',
+      title: this.title.value || '',
+      timestamp: this.storage.clip().$createdAt,
+      userName: this.auth.user()?.name,
     };
-    await this.storage.createSortzDocument(shortzObj);
+    await this.storage.createClipDocument(clipObj);
     this.isNextStep.set(false);
     this.file = null;
     this.title.setValue('');

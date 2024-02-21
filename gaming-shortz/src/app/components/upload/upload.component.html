@@ -26,7 +26,7 @@
     <!-- Video Editor -->
     <div *ngIf="isNextStep()">
       <!-- Form -->
-      <form [formGroup]="uploadForm" (ngSubmit)="uploadFile()">
+      <form [formGroup]="uploadForm" (ngSubmit)="upload()">
         <!-- Screenshots -->
         <h2 class="mb-4 text-xl">Select a Thumbnail</h2>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">

@@ -7,6 +7,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { UploadComponent } from './components/upload/upload.component';
 import { ClipComponent } from './components/clip/clip.component';
+import { ManageComponent } from './components/manage/manage.component';
 
 export const routes: Routes = [
   /*  {
@@ -32,5 +33,9 @@ export const routes: Routes = [
   {
     path: 'clip/:id',
     component: ClipComponent,
+  },
+  {
+    path: 'manage',
+    component: ManageComponent,
   },
 ];

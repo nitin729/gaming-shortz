@@ -26,7 +26,22 @@ export class HeaderComponent {
   logout() {
     this.authService.logout();
     this.authService.isLoggedIn.set(false);
-    this.storage.documents.set([]);
+    this.authService.user.set(null);
+    this.storage.clips.set([]);
+    this.storage.clip.set({
+      $id: '',
+      bucketId: '',
+      $createdAt: '',
+      $updatedAt: '',
+      $permissions: [],
+      name: '',
+      signature: '',
+      mimeType: '',
+      sizeOriginal: 0,
+      chunksTotal: 0,
+      chunksUploaded: 0,
+    });
+    this.storage.userClips.set([]);
     this.router.navigate(['/login']);
   }
 }

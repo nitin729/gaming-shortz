@@ -14,6 +14,6 @@ export class HomeComponent {
   constructor(private storage: StorageService) {}
 
   ngOnInit() {
-    this.storage.getAllDocuments();
+    this.storage.getAllClips();
   }
 }

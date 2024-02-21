@@ -12,5 +12,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './clips-list.component.css',
 })
 export class ClipsListComponent {
-  constructor(public storage: StorageService) {}
+  constructor(public storage: StorageService) {
+    console.log(this.storage.clips());
+  }
+  ngOnInit() {
+    console.log(this.storage.clips());
+  }
 }

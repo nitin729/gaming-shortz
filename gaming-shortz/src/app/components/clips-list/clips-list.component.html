@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-  <ng-container *ngFor="let document of storage.documents()">
+  <ng-container *ngFor="let document of storage.clips()">
     <!-- <app-clip [clip]="clip"></app-clip> -->
     <a
-      [routerLink]="['clip', document['id']]"
+      [routerLink]="['clip', document['clipId']]"
       class="m-4 mt-2 rounded-tl-2xl rounded-br-2xl shadow-xl bg-secondary transform hover:-translate-y-2 hover:shadow-2xl transition duration-300"
     >
       <!-- Image -->
