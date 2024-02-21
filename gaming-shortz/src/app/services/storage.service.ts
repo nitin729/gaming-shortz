@@ -12,6 +12,7 @@ export class StorageService {
   storage;
   db;
   clips = signal<Models.Document[]>([]);
+  activeClip = signal<Models.Document | null>(null);
   userClips = signal<Models.Document[]>([]); //
   clip = signal<Models.File>({
     $id: '',
@@ -110,8 +111,7 @@ export class StorageService {
         [Query.equal('userId', [userId || ''])]
       );
       this.userClips.update(() => clips.documents);
-      console.log(this.userClips());
-      return this.userClips();
+      return clips.documents;
     } catch (error) {
       console.log(error);
     }

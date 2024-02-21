@@ -18,7 +18,7 @@
   <!-- Video List -->
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
     <div
-      *ngFor="let userclip of userClips | async"
+      *ngFor="let userclip of userClips"
       class="mt-6 rounded-tl-2xl rounded-br-2xl shadow-xl bg-secondary flex flex-col justify-start"
     >
       <!-- Image -->
@@ -33,7 +33,6 @@
       <div class="p-6 text-2xl">
         <!-- Link -->
         <p class="font-bold mb-2">{{ userclip["title"] }}</p>
-        <app-input></app-input>
         <button class="bg-gray-400 text-white px-2 py-1 ml-2 text-sm rounded">
           Copy Link
         </button>
@@ -42,6 +41,7 @@
       <!-- Actions -->
       <div class="flex text-center text-2xl bg-gray-800 p-2 mt-auto">
         <button
+          (click)="openModal($event, userclip)"
           class="flex-1 p-2 border-right border-r-2 border-gray-700 transition hover:text-indigo-400"
         >
           <span class="material-icons text-base">build</span>
@@ -57,3 +57,8 @@
     </div>
   </div>
 </div>
+
+<app-edit-clip
+  [activeClip]="activeClip"
+  (update)="updateClip($event)"
+></app-edit-clip>

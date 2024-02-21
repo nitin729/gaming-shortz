@@ -1,18 +1,27 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, Input } from '@angular/core';
 import { SharedService } from '../shared.service';
+import { CommonModule } from '@angular/common';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.css',
 })
 export class ModalComponent {
-  constructor(private sharedService: SharedService, private el: ElementRef) {}
+  @Input() modalId: string = '';
 
-  // ngOnInit() {
-  //   this.sharedService.registerModal('auth');
-  //   document.body.appendChild(this.el.nativeElement);
-  // }
+  constructor(public modal: ModalService, private el: ElementRef) {}
+
+  closeModal() {
+    this.modal.toggleModal(this.modalId);
+  }
+  ngOnInit() {
+    document.body.appendChild(this.el.nativeElement);
+  }
+  ngOnDestroy() {
+    document.body.removeChild(this.el.nativeElement);
+  }
 }

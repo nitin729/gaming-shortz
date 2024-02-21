@@ -36,8 +36,10 @@
 
         <!-- Name & Date -->
         <p class="mb-0 text-wrap">
-          {{ document["createdBy"] }} &#183;
-          <span class="text-gray-400">{{ document["createdAt"] | date }} </span>
+          {{ document["userName"] }} &#183;
+          <span class="text-gray-400"
+            >{{ document["timestamp"] | date : "medium" }}
+          </span>
         </p>
       </div>
     </a>
