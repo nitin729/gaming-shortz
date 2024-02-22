@@ -1,14 +1,20 @@
 <!-- Top Bar -->
 <section class="container mx-auto my-8 bg-secondary p-6">
   <div class="rounded relative flex justify-between">
-    <a href="#" class="bg-indigo-400 text-white py-4 px-10 text-xl"
+    <a
+      [routerLink]="['/upload']"
+      class="bg-indigo-400 text-white py-4 px-10 text-xl"
       >Upload Videos</a
     >
 
     <!-- Sort Videos -->
-    <select class="text-black px-8 text-xl outline-none appearance-none">
-      <option value="1">Recent Uploads</option>
-      <option value="2">Oldest Uploads</option>
+    <select
+      #sort
+      class="text-black px-8 text-xl outline-none appearance-none"
+      (change)="onFilterChange(sort.value)"
+    >
+      <option value="ASCE">Recent Uploads</option>
+      <option value="DSCE">Oldest Uploads</option>
     </select>
   </div>
 </section>
@@ -22,7 +28,7 @@
       class="mt-6 rounded-tl-2xl rounded-br-2xl shadow-xl bg-secondary flex flex-col justify-start"
     >
       <!-- Image -->
-      <a href="#">
+      <a [routerLink]="['/clip', userclip['clipId']]">
         <img
           class="card-img-top rounded-tl-2xl w-full h-52"
           src="assets/img/1.jpg"

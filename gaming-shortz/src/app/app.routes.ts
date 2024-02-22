@@ -8,6 +8,9 @@ import { HomeComponent } from './components/home/home.component';
 import { UploadComponent } from './components/upload/upload.component';
 import { ClipComponent } from './components/clip/clip.component';
 import { ManageComponent } from './components/manage/manage.component';
+import { authGuard } from './auth.guard';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AboutComponent } from './components/about/about.component';
 
 export const routes: Routes = [
   /*  {
@@ -27,15 +30,27 @@ export const routes: Routes = [
     component: RegisterComponent,
   },
   {
+    path: 'about',
+    component: AboutComponent,
+  },
+  {
     path: 'upload',
     component: UploadComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'clip/:id',
     component: ClipComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'manage',
     component: ManageComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: NotFoundComponent,
   },
 ];

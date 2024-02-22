@@ -48,7 +48,7 @@ export class UploadComponent {
       return;
     }
     console.log(this.file);
-    this.title.setValue(this.file.name);
+    this.title.setValue(this.file.name.replace(/\.[^/.]+$/, ''));
     this.isNextStep.set(true);
   }
 

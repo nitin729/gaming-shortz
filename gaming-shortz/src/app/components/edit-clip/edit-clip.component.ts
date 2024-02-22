@@ -19,17 +19,28 @@ export class EditClipComponent {
   constructor(public modal: ModalService, public storage: StorageService) {}
 
   title = new FormControl('');
+  id = new FormControl('');
   ngOnInit(): void {
     this.modal.registerModal('edit-clip');
-    if (this.storage.activeClip()) {
-      //const activeClip = this.storage.activeClip();
-      this.title.setValue(this.activeClip['title']);
-    }
   }
 
   ngOnDestroy(): void {
     this.modal.unregisterModal('edit-clip');
   }
+  ngOnChanges() {
+    if (!this.activeClip) {
+      return;
+    }
+    this.title.setValue(this.activeClip['title']);
+    this.id.setValue(this.activeClip['$id']);
+  }
 
-  updateForm() {}
+  updateForm($event: Event) {
+    $event.preventDefault();
+    this.update.emit({
+      title: this.title.value,
+      id: this.id.value,
+    });
+    this.modal.toggleModal('edit-clip');
+  }
 }

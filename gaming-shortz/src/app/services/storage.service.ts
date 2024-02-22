@@ -103,7 +103,26 @@ export class StorageService {
     return null;
   }
 
-  async getUserClips(userId: string | null) {
+  async getUserClips(userId: string | null, sortOption: string) {
+    try {
+      const clips = await this.db.listDocuments(
+        environment.appwrite.DATABASE_ID,
+        environment.appwrite.COLLECTION_ID,
+        [
+          Query.equal('userId', [userId || '']),
+          sortOption === 'ASCE'
+            ? Query.orderAsc('timestamp')
+            : Query.orderDesc('timestamp'),
+        ]
+      );
+      this.userClips.update(() => clips.documents);
+      return clips.documents;
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+  async getFilteredUserClips(userId: string | null) {
     try {
       const clips = await this.db.listDocuments(
         environment.appwrite.DATABASE_ID,
@@ -133,6 +152,17 @@ export class StorageService {
       console.log(error);
     }
     return null;
+  }
+
+  async updateClipDocument(id: string, title: string) {
+    try {
+      await this.db.updateDocument(
+        environment.appwrite.DATABASE_ID,
+        environment.appwrite.COLLECTION_ID,
+        id,
+        { title: title }
+      );
+    } catch (error) {}
   }
 
   /* async createSortzDocument(shortz: Clip) {

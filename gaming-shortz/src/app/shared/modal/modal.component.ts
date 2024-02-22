@@ -1,5 +1,4 @@
 import { Component, ElementRef, Input } from '@angular/core';
-import { SharedService } from '../shared.service';
 import { CommonModule } from '@angular/common';
 import { ModalService } from '../../services/modal.service';
 
@@ -16,6 +15,8 @@ export class ModalComponent {
   constructor(public modal: ModalService, private el: ElementRef) {}
 
   closeModal() {
+    console.log(this.modalId);
+
     this.modal.toggleModal(this.modalId);
   }
   ngOnInit() {
