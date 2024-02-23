@@ -39,7 +39,10 @@
       <div class="p-6 text-2xl">
         <!-- Link -->
         <p class="font-bold mb-2">{{ userclip["title"] }}</p>
-        <button class="bg-gray-400 text-white px-2 py-1 ml-2 text-sm rounded">
+        <button
+          (click)="copyToClipboard($event, userclip['clipId'])"
+          class="bg-gray-400 text-white px-2 py-1 ml-2 text-sm rounded"
+        >
           Copy Link
         </button>
       </div>

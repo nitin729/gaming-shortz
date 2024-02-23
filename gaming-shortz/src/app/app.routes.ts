@@ -35,17 +35,29 @@ export const routes: Routes = [
   },
   {
     path: 'upload',
-    component: UploadComponent,
+    //  component: UploadComponent,
+    loadComponent: () =>
+      import('./components/upload/upload.component').then(
+        (mod) => mod.UploadComponent
+      ),
     canActivate: [authGuard],
   },
   {
     path: 'clip/:id',
-    component: ClipComponent,
+    // component: ClipComponent,
+    loadComponent: () =>
+      import('./components/clip/clip.component').then(
+        (mod) => mod.ClipComponent
+      ),
     canActivate: [authGuard],
   },
   {
     path: 'manage',
-    component: ManageComponent,
+    // component: ManageComponent,
+    loadComponent: () =>
+      import('./components/manage/manage.component').then(
+        (mod) => mod.ManageComponent
+      ),
     canActivate: [authGuard],
   },
   {

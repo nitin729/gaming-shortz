@@ -68,4 +68,14 @@ export class ManageComponent {
       }
     });
   }
+
+  async copyToClipboard($event: MouseEvent, id: string) {
+    $event.preventDefault();
+    if (!id) {
+      return;
+    }
+    const link = `${location.origin}/clip/${id}`;
+    await navigator.clipboard.writeText(link);
+    alert('Link copied to clipboard');
+  }
 }

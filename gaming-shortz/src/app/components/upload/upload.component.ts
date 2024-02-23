@@ -47,7 +47,6 @@ export class UploadComponent {
       alert('Only mp4 files are allowed');
       return;
     }
-    console.log(this.file);
     this.title.setValue(this.file.name.replace(/\.[^/.]+$/, ''));
     this.isNextStep.set(true);
   }
@@ -71,6 +70,5 @@ export class UploadComponent {
     this.file = null;
     this.title.setValue('');
     this.router.navigate(['/']);
-    console.log('successfully');
   }
 }
