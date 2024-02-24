@@ -89,6 +89,19 @@ export class StorageService {
       console.log(error);
     }
   }
+  async uploadScreenshot(file: File) {
+    try {
+      console.log(file);
+      return await this.storage.createFile(
+        environment.appwrite.SS_BUCKET_ID,
+        ID.unique(),
+        file
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
 
   getFileView(fileId: string) {
     try {

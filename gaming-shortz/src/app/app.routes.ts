@@ -35,11 +35,11 @@ export const routes: Routes = [
   },
   {
     path: 'upload',
-    //  component: UploadComponent,
-    loadComponent: () =>
+    component: UploadComponent,
+    /* loadComponent: () =>
       import('./components/upload/upload.component').then(
         (mod) => mod.UploadComponent
-      ),
+      ), */
     canActivate: [authGuard],
   },
   {

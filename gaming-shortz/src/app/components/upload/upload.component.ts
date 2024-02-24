@@ -12,6 +12,7 @@ import { InputComponent } from '../../shared/input/input.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Clip } from '../../models/Clip';
+import { FfmpegService } from '../../services/ffmpeg.service';
 
 @Component({
   selector: 'app-upload',
@@ -33,26 +34,49 @@ export class UploadComponent {
   uploadForm = new FormGroup({
     title: this.title,
   });
+  screenshots: string[] = [];
+  selectedScreenshot = '';
 
   constructor(
     private storage: StorageService,
     private router: Router,
-    private auth: AuthService
-  ) {}
+    private auth: AuthService,
+    public ffmpeg: FfmpegService
+  ) {
+    this.ffmpeg.init();
+  }
 
-  storeFile($event: Event): void {
+  ngOnInit() {
+    console.log(this.ffmpeg.isReady);
+  }
+
+  async storeFile($event: Event) {
+    if (this.ffmpeg.isRunning) {
+      return;
+    }
     this.isDragOver.set(false);
     this.file = ($event as DragEvent).dataTransfer?.files.item(0) ?? null;
     if (!this.file || this.file.type !== 'video/mp4') {
       alert('Only mp4 files are allowed');
       return;
     }
+    this.screenshots = await this.ffmpeg.getScreenshots(this.file);
+    this.selectedScreenshot = this.screenshots[0];
     this.title.setValue(this.file.name.replace(/\.[^/.]+$/, ''));
     this.isNextStep.set(true);
   }
 
+  public selectScreenshot(screenshot: string) {
+    this.selectedScreenshot = screenshot;
+  }
+
   async upload() {
     await this.storage.uploadClip(this.file as File);
+    const screenshot = await this.ffmpeg.getScreenshot(this.selectedScreenshot);
+    const screenshotTask = await this.storage.uploadScreenshot(
+      screenshot as File
+    );
+    const screenshotId = screenshotTask?.$id;
     let clipObj: Clip = {
       /* title: this.title.value || '',
       userId: this.auth.user()?.$id,
@@ -60,7 +84,7 @@ export class UploadComponent {
       createdBy: this.auth.user()?.name, */
       userId: this.auth.user()?.$id,
       clipId: this.storage.clip().$id,
-      screenshotUrl: '',
+      screenshotUrl: screenshotId || '',
       title: this.title.value || '',
       timestamp: this.storage.clip().$createdAt,
       userName: this.auth.user()?.name,
