@@ -2,13 +2,13 @@ import { Injectable, computed, signal } from '@angular/core';
 import { Client, Storage, Databases, ID, Models, Query } from 'appwrite';
 import { environment } from '../../environments/environment.development';
 import { Clip } from '../models/Clip';
+import appwrite from 'appwrite';
 import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
   client = new Client();
-
   storage;
   db;
   clips = signal<Models.Document[]>([]);
@@ -44,6 +44,8 @@ export class StorageService {
         ID.unique(),
         clip
       );
+      console.log(document);
+
       return document;
     } catch (error) {
       console.log(error);
@@ -68,6 +70,10 @@ export class StorageService {
         environment.appwrite.DATABASE_ID,
         environment.appwrite.COLLECTION_ID
       );
+      clips.documents.forEach((clip) => {
+        const screenshotURL = this.getImagePreview(clip['screenshotUrl']);
+        clip['screenshotUrl'] = screenshotURL;
+      });
       this.clips.update(() => clips.documents);
       console.log(this.clips);
 
@@ -95,7 +101,7 @@ export class StorageService {
       return await this.storage.createFile(
         environment.appwrite.SS_BUCKET_ID,
         ID.unique(),
-        file
+        file as File
       );
     } catch (error) {
       console.log(error);
@@ -109,7 +115,22 @@ export class StorageService {
         environment.appwrite.BUCKET_ID,
         fileId
       );
+      console.log(clip);
+
+      return clip.href;
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+  getImagePreview(fileId: string) {
+    try {
+      const clip = this.storage.getFilePreview(
+        environment.appwrite.SS_BUCKET_ID,
+        fileId
+      );
       return clip.href.toString();
+      ``;
     } catch (error) {
       console.log(error);
     }
@@ -161,6 +182,14 @@ export class StorageService {
         return prevDocs.filter((doc) => doc.$id !== id);
       });
       return this.userClips();
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+  async deleteScreenshots(id: string) {
+    try {
+      await this.storage.deleteFile(environment.appwrite.SS_BUCKET_ID, id);
     } catch (error) {
       console.log(error);
     }

@@ -49,6 +49,12 @@ export class ManageComponent {
 
   public deleteClip(userClip: Models.Document) {
     this.storage.deleteUserClips(userClip['$id'], userClip['clipId']);
+    this.storage.deleteScreenshots(userClip['screenshotId']);
+    console.log(this.userClips);
+
+    this.userClips =
+      this.userClips?.filter((clip) => clip.$id !== userClip.$id) ?? null;
+    console.log(this.userClips);
   }
 
   public openModal($event: Event, userClip: Models.Document) {

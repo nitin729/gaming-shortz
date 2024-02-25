@@ -57,6 +57,11 @@ export class FfmpegService {
         'readFile',
         `output_0${second}.png`
       );
+      console.log(
+        this.ffmpeg.FS('writeFile', `output_0${second}.png`, screenshotFile),
+        'Files'
+      );
+
       const screenshotBlob = new Blob([screenshotFile.buffer], {
         type: 'image/png',
       });
@@ -67,7 +72,7 @@ export class FfmpegService {
     return screenshots;
   }
 
-  async getScreenshot(url: string) {
+  async getScreenshot(url: string): Promise<File> {
     const response = await fetch(url);
     const blob = await response.blob();
     console.log(url, 'url');
@@ -82,8 +87,10 @@ export class FfmpegService {
     //A Blob() is almost a File() - it's just missing the two properties below which we will add
     b.lastModifiedDate = new Date();
     b.name = fileName;
-
+    const file = new File([b], fileName, {
+      type: b.type,
+    });
     //Cast to a File() type
-    return theBlob as File;
+    return file as File;
   }
 }
