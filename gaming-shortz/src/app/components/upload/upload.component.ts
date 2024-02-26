@@ -78,9 +78,10 @@ export class UploadComponent {
     const screenshotTask = await this.storage.uploadScreenshot(
       screenshot as File
     );
-    console.log(screenshotTask);
-
     const screenshotId = screenshotTask?.$id;
+    const screenshotUrl = this.storage.getImagePreview(screenshotId as string);
+    console.log(screenshotUrl);
+
     let clipObj: Clip = {
       /* title: this.title.value || '',
       userId: this.auth.user()?.$id,
@@ -89,7 +90,7 @@ export class UploadComponent {
       userId: this.auth.user()?.$id,
       clipId: this.storage.clip().$id,
       screenshotId: screenshotId || '',
-      screenshotUrl: this.selectedScreenshot || '',
+      screenshotUrl,
       title: this.title.value || '',
       timestamp: this.storage.clip().$createdAt,
       userName: this.auth.user()?.name,

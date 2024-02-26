@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+import { ID } from 'appwrite';
+import { randomUUID } from 'crypto';
 
 @Injectable({
   providedIn: 'root',
@@ -78,7 +80,9 @@ export class FfmpegService {
     console.log(url, 'url');
 
     console.log(blob, 'blob');
-    return this.blobToFile(blob, url.toString());
+    console.log(`output ${ID.unique()}`);
+
+    return this.blobToFile(blob, `output ${Math.random() * 100 + 1}`);
 
     // return blob;
   }

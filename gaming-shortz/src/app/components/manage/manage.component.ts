@@ -10,13 +10,20 @@ import { ModalService } from '../../services/modal.service';
 import { Clip } from '../../models/Clip';
 import { from } from 'rxjs';
 import { RouterLink } from '@angular/router';
+import { SafeURLPipe } from '../../pipes/safe-url.pipe';
 
 @Component({
   selector: 'app-manage',
   standalone: true,
-  imports: [CommonModule, InputComponent, EditClipComponent, RouterLink],
   templateUrl: './manage.component.html',
   styleUrl: './manage.component.css',
+  imports: [
+    CommonModule,
+    InputComponent,
+    EditClipComponent,
+    RouterLink,
+    SafeURLPipe,
+  ],
 })
 export class ManageComponent {
   userClips!: Models.Document[] | null;

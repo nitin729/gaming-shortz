@@ -70,10 +70,6 @@ export class StorageService {
         environment.appwrite.DATABASE_ID,
         environment.appwrite.COLLECTION_ID
       );
-      clips.documents.forEach((clip) => {
-        const screenshotURL = this.getImagePreview(clip['screenshotUrl']);
-        clip['screenshotUrl'] = screenshotURL;
-      });
       this.clips.update(() => clips.documents);
       console.log(this.clips);
 
@@ -125,12 +121,13 @@ export class StorageService {
   }
   getImagePreview(fileId: string) {
     try {
-      const clip = this.storage.getFilePreview(
+      const img = this.storage.getFilePreview(
         environment.appwrite.SS_BUCKET_ID,
         fileId
       );
-      return clip.href.toString();
-      ``;
+      console.log(img);
+
+      return img;
     } catch (error) {
       console.log(error);
     }
